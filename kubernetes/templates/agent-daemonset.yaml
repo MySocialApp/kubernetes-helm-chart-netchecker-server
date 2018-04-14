@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: netchecker-agent
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: netchecker-agent
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  template:
+    metadata:
+      name: netchecker-agent
+      labels:
+        app: netchecker-agent
+    spec:
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+      containers:
+        - name: netchecker-agent
+          image: mirantis/k8s-netchecker-agent:{{ .Values.image.tag }}
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MY_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          args:
+            - "-v=5"
+            - "-alsologtostderr=true"
+            - "-serverendpoint=netchecker-service:8081"
+            - "-reportinterval=15"
+          imagePullPolicy: IfNotPresent
+          resources:
+             limits:
+               cpu: 30m
+               memory: 100M
+             requests:
+               cpu: 15m
+               memory: 64M

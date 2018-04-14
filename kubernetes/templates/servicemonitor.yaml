@@ -1,0 +1,20 @@
+{{ if .Values.prometheusScrape }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: netchecker-server-{{ .Release.Namespace }}
+  namespace: observability
+  labels:
+    app: netchecker-server
+    prometheus: observability
+spec:
+  selector:
+    matchLabels:
+      app: netchecker-server
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  endpoints:
+  - port: netchecker
+    interval: 15s
+{{ end }}

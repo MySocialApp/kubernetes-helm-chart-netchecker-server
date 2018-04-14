@@ -1,0 +1,41 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: netchecker-server
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: netchecker-server
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: netchecker-server
+      labels:
+        app: netchecker-server
+      namespace: {{ .Release.Namespace }}
+    spec:
+      containers:
+        - name: netchecker-server
+          image: mirantis/k8s-netchecker-server:{{ .Values.image.tag }}
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256M
+            requests:
+              cpu: 50m
+              memory: 64M
+          ports:
+            - name: netchecker
+              containerPort: 8081
+          args:
+            - "-v=5"
+            - "-logtostderr"
+            - "-kubeproxyinit"
+            - "-endpoint=0.0.0.0:8081"
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists

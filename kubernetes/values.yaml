@@ -1,0 +1,8 @@
+image:
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  nodePort: 31081
+
+prometheusScrape: true
