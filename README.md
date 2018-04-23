@@ -1,4 +1,4 @@
-# Kubernetes Helm Chart for Netchecker Agent
+# Kubernetes Helm Chart for Netchecker Server & Agent
 
 You can find here a helm chart we're using at [MySocialApp](https://mysocialapp.io) (iOS and Android social app builder - SaaS)
 
