@@ -1,4 +1,4 @@
 apiVersion: v1
 description: A simple network checker for kubernetes
 name: netchecker
-version: 1.0
+version: 1.1

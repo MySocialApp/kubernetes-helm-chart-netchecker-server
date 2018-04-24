@@ -17,6 +17,10 @@ spec:
         app: netchecker-server
       namespace: {{ .Release.Namespace }}
     spec:
+      nodeSelector:
+        {{- range $key, $val := .Values.elasticsearchDataNodeSelector }}
+        {{ $key }}: {{ $val | quote }}
+        {{- end}}
       containers:
         - name: netchecker-server
           image: mirantis/k8s-netchecker-server:{{ .Values.image.tag }}
