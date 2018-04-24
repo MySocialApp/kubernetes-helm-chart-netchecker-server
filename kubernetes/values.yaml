@@ -6,3 +6,6 @@ service:
   nodePort: 31081
 
 prometheusScrape: true
+
+netcheckerNodeSelector:
+  node-role.kubernetes.io/node: "true"
