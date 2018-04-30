@@ -1,0 +1,26 @@
+{{ if .Values.blackboxExporter.bbPrometheusScrape }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: network-checker-external-{{ .Release.Namespace }}
+  namespace: observability
+  labels:
+    app: network-checker-external
+    prometheus: observability
+spec:
+  endpoints:
+  - interval: 15s
+    params:
+      module:
+      - icmp
+      target:
+        - 8.8.8.8
+    path: "/probe"
+    targetPort: 9115
+  selector:
+    matchLabels:
+      app: network-checker-external
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+{{ end }}

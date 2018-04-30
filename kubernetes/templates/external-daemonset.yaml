@@ -1,0 +1,37 @@
+{{ if .Values.blackboxExporter.enabled }}
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: network-checker-external
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: network-checker-external
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: network-checker-external
+  template:
+    metadata:
+      labels:
+        app: network-checker-external
+    spec:
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+      containers:
+      - image: prom/blackbox-exporter:{{ .Values.blackboxExporter.bbImageVersion }}
+        name: blackbox-exporter
+        ports:
+        - containerPort: 9115
+          name: metrics
+          resources:
+             limits:
+               cpu: 30m
+               memory: 64M
+             requests:
+               cpu: 15m
+               memory: 32M
+{{ end }}

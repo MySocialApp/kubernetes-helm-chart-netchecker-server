@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: network-checker-external
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: network-checker-external
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    app: network-checker-external
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 9115
+      targetPort: metrics

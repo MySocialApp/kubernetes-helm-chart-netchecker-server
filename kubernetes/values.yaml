@@ -9,3 +9,8 @@ prometheusScrape: true
 
 netcheckerNodeSelector:
   node-role.kubernetes.io/node: "true"
+
+blackboxExporter:
+  enabled: false
+  bbImageVersion: v0.12.0
+  bbPrometheusScrape: false

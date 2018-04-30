@@ -7,3 +7,5 @@ You can find here a helm chart we're using at [MySocialApp](https://mysocialapp.
 This Helm Chart deploy a Prometheus Exporter. You can then use [this Grafana dashboard](https://grafana.com/dashboards/5727) to display the number of nodes in you Cluster, the latency seen between each others and compare to the number of nodes seen bby Kubernetes itself:
 
 ![Grafana](https://grafana.com/api/dashboards/5727/images/3621/image)
+
+There is also blackbox exporter added to monitor external devices to help on host correlation.
