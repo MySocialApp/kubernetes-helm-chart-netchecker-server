@@ -24,14 +24,14 @@ spec:
       containers:
       - image: prom/blackbox-exporter:{{ .Values.blackboxExporter.bbImageVersion }}
         name: blackbox-exporter
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64M
+          requests:
+            cpu: 50m
+            memory: 32M
         ports:
-        - containerPort: 9115
-          name: metrics
-          resources:
-             limits:
-               cpu: 30m
-               memory: 64M
-             requests:
-               cpu: 15m
-               memory: 32M
+        - name: metrics
+          containerPort: 9115
 {{ end }}
