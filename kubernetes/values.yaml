@@ -9,6 +9,7 @@ prometheusScrape: true
 
 netcheckerNodeSelector:
   node-role.kubernetes.io/node: "true"
+  stateless: "true"
 
 blackboxExporter:
   enabled: false
